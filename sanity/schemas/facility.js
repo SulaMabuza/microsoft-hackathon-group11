@@ -15,6 +15,8 @@ export default {
       title: "Short description",
       validation: (Rule) => Rule.max(200),
     },
+
+
     {
       name: "image",
       type: "image",
@@ -37,12 +39,22 @@ export default {
       validation: (Rule) => Rule.required(),
     },
     {
-      name: "location",
-      title: "Location",
+      name: "emailaddress",
+      type: "string",
+      title: "Email address",
+      validation: (Rule) => Rule.required(),
+    },
+    {
+      name: "phonenumber",
+      type: "number",
+      title: "Contact Number",
+      validation: (Rule) => Rule.required(),
+    },
+    {
+      name: "city",
+      type: "string",
+      title: "City",
       validation: (Rule) =>Rule.required(),
-      type: "reference",
-      to: [{type: "location"}],
-
     },
     {
       name: "rating",
@@ -53,6 +65,16 @@ export default {
           .min(1)
           .max(5)
           .error("Please enter a Value between 1 and 5"),
+    },
+    {
+      name: "aboutvaccination",
+      type: "string",
+      title: "Vaccination Procedure at Your Facility"
+    },
+    {
+      name: "vaccinationschedule",
+      type: "string",
+      title: "Open and Close Time? E.g 8am - 5pm",
     },
     {
       name: "type",

@@ -10,7 +10,7 @@ import {View,
 import Logo from '../assets/images/Logo_1.png';
 import CustomInput from '../components/CustomInput';
 import CustomButton from '../components/CustomButton';
-import { auth } from '../firebase';
+import firebase, { auth } from '../firebase';
 
 const SignInScreen = () =>{
 	const [email, setEmail] = useState('');
@@ -49,14 +49,15 @@ const SignInScreen = () =>{
 			.catch(error=>alert(error.message));
 	}
 
-	const onForgotPasswordPressed = () =>{
-		console.warn("Forgot password?");
+	const onForgotPasswordPressed = (email) =>{
+		firebase.auth().sendPasswordResetEmail(email)
+		.then(function(user){
+			alert('Please check your email...')
+		}).catch(function(e) {
+			console.log(e)
+		})
 	}
 
-
-	const handleFacilityRegistration = () =>{
-		console.warn('Facility Registration');
-	}
 
 	const {height} = useWindowDimensions();
 	return(
@@ -85,7 +86,7 @@ const SignInScreen = () =>{
 
 			<CustomButton 
 				text={"Forgot password?"} 
-				onPress={onForgotPasswordPressed}
+				onPress={onForgotPasswordPressed(email)}
 				type= "TERTIARY"
 			/>
 
@@ -95,13 +96,6 @@ const SignInScreen = () =>{
 				type= "TERTIARY"
 			/>
 
-			<CustomButton 
-				text={'Register Facility'}
-				onPress={handleFacilityRegistration}
-				bgColor={'#00CCBB'}
-				fgColor={'#FFF'}
-
-			/>
 
 
 		</View>

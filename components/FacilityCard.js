@@ -9,15 +9,23 @@ const FacilityCard = ({
 	id,
 	imgUrl,
 	title,
+	city,
 	rating,
 	genre,
 	address,
+	phonenumber,
+	emailaddress,
 	short_description,
 	vaccines,
 	long,
 	lat,
+	cityHandler,
+	aboutvaccination,
+	vaccinationschedule
 }) =>{
 	const navigation = useNavigation();
+	console.log(cityHandler)
+	if(cityHandler.includes(city))
 	return(
 		<TouchableOpacity 
 			onPress={() =>{
@@ -28,10 +36,15 @@ const FacilityCard = ({
 						rating,
 						genre,
 						address,
+						phonenumber,
+						emailaddress,
 						short_description,
 						vaccines,
 						long,
 						lat,
+						cityHandler,
+						aboutvaccination,
+						vaccinationschedule
 					});
 			}}
 			className="bg-white mr-3 shadow">
@@ -53,7 +66,7 @@ const FacilityCard = ({
 
 				<View className="flex-row items-center space-x-1">
 					<MapPinIcon color='gray' opacity={0.4} size={22}/>
-					<Text className="text-xs text-gray-500"> Nearby · {address} </Text>
+					<Text className="text-xs text-gray-500">{address} </Text>
 				</View>
 			</View>
 		</TouchableOpacity>

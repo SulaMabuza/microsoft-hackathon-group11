@@ -6,6 +6,7 @@ import {ArrowLeftIcon} from 'react-native-heroicons/solid';
 import CustomButton from '../components/CustomButton';
 import { auth } from '../firebase';
 
+
 const ProfileScreen = () => {
 
 	const navigation = useNavigation()

@@ -11,9 +11,12 @@ import {UserIcon,
 		ChevronDownIcon, 
 		MagnifyingGlassIcon, 
 		AdjustmentsVerticalIcon} from 'react-native-heroicons/outline';
+import GooglePlacesAutocomplete from 'react-native-google-places-autocomplete';
+import {GOOGLE_API_KEY} from '../environments';
 import Categories from '../components/Categories.js';
 import FeaturedRow from '../components/FeaturedRow.js';
 import sanityClient from "../sanity";
+import SearchBar from '../components/SearchBar';
 
 
 
@@ -27,6 +30,8 @@ const HomeScreen = () =>{
 		latitudeDelta: 0.001,
 		longitudeDelta: 0.001,
 	});
+
+	const [city, setCity] = useState('Yola, Nigeria');
 
 	useLayoutEffect(()=>{
 		navigation.setOptions({
@@ -46,8 +51,7 @@ const HomeScreen = () =>{
 			}`).then(data => {
 				setFeaturedCategories(data);
 			});
-	}, []);
-
+	}, [city]);
 
 	return (
 		<SafeAreaView className='bg-white pt-5'>
@@ -63,7 +67,7 @@ const HomeScreen = () =>{
 					<View className='flex-1'>
 						<Text className='font-bold text-gray-400 text-xs'> Vaccinate Now! </Text>
 						<Text className='font-bold text-xl'> 
-							Current Location
+							{city}
 							<ChevronDownIcon size={20} color='#00CCBB' />
 						</Text>
 					</View>
@@ -75,17 +79,11 @@ const HomeScreen = () =>{
 				</View>
 
 				{/* Search */}
-				<View className="flex-row items-center space-x-2 pb-2 mx-4 px-4">
-					<View className="flex-row flex-1 space-x-2 bg-gray-200 p-3">
-						<MagnifyingGlassIcon color='gray' size={20}/>
-						<TextInput 
-							placeholder='Facilities and vaccines'
-							keyboardType='default'
+				<View className="flex-row items-center space-x-2 pb-2 mx-0 px-4">
+					<SearchBar 
+						cityHandler={setCity}
 						/>
-					</View>
 
-
-					<AdjustmentsVerticalIcon color='#00CCBB'/>
 				</View>
 				{/* Body */}
 				<ScrollView className='bg-gray-100'>
@@ -100,7 +98,9 @@ const HomeScreen = () =>{
 							id={category._id}
 							title={category.name}
 							description={category.short_description}
+							city={city}
 						/>
+						
 
 						))}
 

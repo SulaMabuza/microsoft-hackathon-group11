@@ -9,7 +9,7 @@ import category from './category'
 import facility from './facility'
 import vaccine from './vaccine'
 import featured from './featured'
-import location from './location'
+import city from './city'
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -24,7 +24,7 @@ export default createSchema({
     category,
     vaccine,
     featured,
-    location,
+    city,
     // When added to this list, object types can be used as
     // { type: 'typename' } in other document schemas
   ]),

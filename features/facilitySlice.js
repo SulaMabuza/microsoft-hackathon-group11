@@ -8,8 +8,14 @@ const initialState = {
 		rating: null,
 		genre: null,
 		address: null,
+		phonenumber: null,
+		emailaddress: null,
 		short_description: null,
 		vaccines: null,
+		long: null,
+		lat: null,
+		aboutvaccination: null,
+		vaccinationschedule: null,
 	}
 };
 

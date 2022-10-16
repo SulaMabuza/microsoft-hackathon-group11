@@ -15,6 +15,8 @@ import {AuthProvider} from './context/AuthContext';
 import SignInScreen from './screens/SignInScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import TodoListScreen from './screens/TodoListScreen';
+import AboutVaxx from './screens/AboutVaxx';
+import GetDirections from './screens/GetDirections';
 
 const Stack = createNativeStackNavigator();
 
@@ -51,7 +53,17 @@ export default function App() {
               name="TodoList"
               component={TodoListScreen}
               options={{presentation: 'modal',headerShown: false}}
-            />              
+            />
+            <Stack.Screen
+              name="AboutVaxx"
+              component={AboutVaxx} 
+              options={{presentation: 'modal', headerShown: false}}
+            /> 
+            <Stack.Screen 
+              name="GetDirections"
+              component={GetDirections}
+              options = {{presentation: "fullScreenModal", headerShown: false}}
+            />            
           </Stack.Navigator>
 
         </TailwindProvider>

@@ -14,6 +14,8 @@ import BasketIcon from "../components/BasketIcon";
 import { useDispatch } from 'react-redux';
 import { setFacility } from '../features/facilitySlice';
 
+
+
 const FacilityScreen = () => {
 	const navigation = useNavigation();
 	const dispatch = useDispatch();
@@ -26,10 +28,14 @@ const FacilityScreen = () => {
 				rating,
 				genre,
 				address,
+				phonenumber,
+				emailaddress,
 				short_description,
 				vaccines,
 				long,
 				lat,
+				aboutvaccination,
+				vaccinationschedule
 			},
 
 	} = useRoute();
@@ -43,20 +49,27 @@ const FacilityScreen = () => {
 				rating,
 				genre,
 				address,
+				phonenumber,
+				emailaddress,
 				short_description,
 				vaccines,
 				long,
 				lat,
+				aboutvaccination,
+				vaccinationschedule
 			})
 			);
 
 	}, [])
+
 
 	useLayoutEffect(() => {
 		navigation.setOptions({
 			headerShown: false,
 		});
 	}, []);
+
+
 	return(
 		<>
 		<BasketIcon/>
@@ -88,15 +101,22 @@ const FacilityScreen = () => {
 						<View className="flex-row items-center space-x-1">
 							<MapPinIcon color="gray" opacity={0.4} size={22}/>
 							<Text className="text-xs text-gray-500">
-								Nearby · {address}
+								{address}
 							</Text>
 						</View>
 					</View>
-
+ 
 					<Text className="text-gray-500 mt-2 pb-4">{short_description}</Text>
 				</View>
 
-				<TouchableOpacity className="flex-row items-center space-x-2 p-4 border-y border-gray-300">
+				<TouchableOpacity
+					className="flex-row items-center space-x-2 p-4 border-y border-gray-300"
+					onPress={() => 
+						navigation.navigate("AboutVaxx", {
+							aboutVaxx: aboutvaccination,
+							facilityName: title,
+						})
+					}>
 					<QuestionMarkCircleIcon color="gray" opacity={0.6} size={20}/>
 					<Text className="pl-2 flex-1 text-md font-bold">
 						What is a vaccine?
@@ -106,7 +126,7 @@ const FacilityScreen = () => {
 			</View>
 
 			<View className='pb-36'>
-				<Text className="px-4 pt-6 mb-3 font-bold text-xl">Menu</Text>
+				<Text className="px-4 pt-6 mb-3 font-bold text-xl">Catalog</Text>
 					{/*vaccine rows*/}
 				{vaccines.map((vaccine) => (
 						<VaccineRow

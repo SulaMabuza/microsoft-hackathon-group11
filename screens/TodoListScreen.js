@@ -1,21 +1,20 @@
 import { useNavigation } from '@react-navigation/native';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, 
-    Text, View, KeyboardAvoidingView, TextInput, TouchableOpacity, Keyboard } from 'react-native';
+    Text, View, KeyboardAvoidingView, TextInput, TouchableOpacity, ScrollView } from 'react-native';
 import Task from '../components/Task';
 import { XCircleIcon } from 'react-native-heroicons/solid';
+import firebase from '../firebase';
 
 const TodoList = () => {
   const [task, setTask] = useState();
   const [taskItems, setTaskItems] = useState([]);
   const navigation = useNavigation();
+  const [vaccineName, setVaccineName] = useState();
 
-  const handleAddTask = () => {
-    Keyboard.dismiss();
-    setTaskItems([...taskItems,task])
-    setTask(null);
-     
-  }
+  const [lastOrder, setLastOrder] = useState([]);
+  const todoRef = firebase.firestore().collection('bookings');
+
 
   const completeTask = (index) => {
     let itemsCopy = [...taskItems];
@@ -23,6 +22,25 @@ const TodoList = () => {
     setTaskItems(itemsCopy);
   }
 
+  //firebase stuff
+
+  useEffect( () => {
+    const db = firebase.firestore();
+    db.collection('bookings')
+    .orderBy('createdAt', 'desc')
+    .onSnapshot((snapshot) => {
+      snapshot.docs.map((doc) => {
+        const obj = Object.assign({}, doc.data().items);
+        const secObj = Object.assign({}, obj['0'])
+        let taskString = (secObj['name'] + ' at ' + doc.data().facilityName + ' schedule: ' + doc.data().date.toDate());
+        setTaskItems([...taskItems, taskString])
+        
+      });
+    });
+
+  }, [])
+
+  //console.log(taskItems)
   return (
     <View style={styles.container}>
       {/*Today's Tasks*/}
@@ -34,6 +52,7 @@ const TodoList = () => {
             <XCircleIcon color="#00CCBB" height={50} width={50} />
           </TouchableOpacity>
         <Text style={styles.sectionTitle}> Pending Tasks </Text>
+        <ScrollView>
         <View style={styles.items}>
           {/*This is where the tasks will go!*/}
           {
@@ -47,27 +66,10 @@ const TodoList = () => {
 
           }
 
-          {/*<Task text={'Task 1'} />
-          <Task text={'Task 2'}/>*/}
-
-
         </View>
+        </ScrollView>
 
       </View>
-
-     {/*write a task section*/}
-     <KeyboardAvoidingView
-        behavior={Platform.OS=='ios' ? 'padding' : 'height' }
-        style={styles.writeTaskWrapper}
-     >
-      <TextInput style={styles.input} placeholder={'Write a task'} value={task} onChangeText={text=>setTask(text)} />
-      <TouchableOpacity 
-        onPress={() => handleAddTask()}> 
-        <View style={styles.addWrapper}>
-          <Text style={styles.addText}>+</Text>
-        </View>
-      </TouchableOpacity>
-     </KeyboardAvoidingView>
 
     </View>
   );
@@ -121,5 +123,18 @@ const styles = StyleSheet.create({
 
   },
   addText: {},
+  button: {
+    width: 250,
+    alignItems: 'center',
+    backgroundColor: "#00CCBB",
+    borderRadius: 10,
+    height: 50,
+    paddingTop: 15,
+  },
+  buttonText: {
+    fontWeight: 'bold',
+    fontSize: 15,
+    color: 'white',
+  },
 
 });

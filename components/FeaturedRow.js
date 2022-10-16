@@ -4,7 +4,7 @@ import {ArrowRightIcon} from 'react-native-heroicons/outline';
 import FacilityCard from './FacilityCard';
 import sanityClient from "../sanity";
 
-const FeaturedRow = ({id, title, description}) =>{
+const FeaturedRow = ({id, title, description, city}) =>{
 	const [facilities, setFacilities] = useState([]);
 
 	useEffect(() => {
@@ -49,13 +49,17 @@ const FeaturedRow = ({id, title, description}) =>{
 			>
 			{/*RestaurantCards..*/}
 
-			{facilities?.map(facility => (
 
+			{facilities?.map(facility => (
+				
 				<FacilityCard
 					key={facility._id}
 					id={facility._id}
 					imgUrl={facility.image}
 					address={facility.address}
+					phonenumber = {facility.phonenumber}
+					emailaddress = {facility.emailaddress}
+					city = {facility.city}
 					title={facility.name}
 					vaccines={facility.vaccines}
 					rating={facility.rating}
@@ -63,7 +67,9 @@ const FeaturedRow = ({id, title, description}) =>{
 					genre={facility.type?.name}
 					long={facility.long}
 					lat={facility.lat}
-
+					cityHandler={city}
+					aboutvaccination = {facility.aboutvaccination}
+					vaccinationschedule = {facility.vaccinationschedule}
 				/>
 
 				))}
